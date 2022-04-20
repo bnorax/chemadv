@@ -7,23 +7,21 @@ public class BoardSegment : MonoBehaviour
 {
     private int _x = 0, _y = 0;//position on board
     [SerializeField] BoardSegmentType _type = BoardSegmentType.Unavailable;
+
+
     private BoardUIController _uiController;
     public void Start()
     {
         
     }
 
-    private void Awake(){
+    private void Awake()
+    {
         _uiController = transform.parent.transform.parent.gameObject.GetComponent<BoardUIController>();
     }
 
     private void OnValidate()
     {
-        #if UNITY_EDITOR
-        Debug.Log("OnValidate_Editor");
-        #else
-        Debug.Log("OnValidate_PlayerMod");
-        #endif
         if (_uiController == null) return;
         GameObject obj;
         switch (Type)
@@ -34,13 +32,18 @@ public class BoardSegment : MonoBehaviour
             case BoardSegmentType.Available:
                 obj = _uiController._basePrefab;
                 break;
+            case BoardSegmentType.AtomNode:
+                obj = _uiController.atomPrefab;
+                break;
             default:
                 obj = _uiController._basePrefab;
                 break;
         }
-        Image image = GetComponent<Image>();
-        image.color = obj.GetComponent<Image>().color;
-        PrefabUtility.RecordPrefabInstancePropertyModifications(image);
+
+        //gameObject = obj;
+        //Image image = GetComponent<Image>();
+        //image.color = obj.GetComponent<Image>().color;
+        //PrefabUtility.RecordPrefabInstancePropertyModifications(image);
     }
 
     public BoardSegment(int posX, int posY, BoardSegmentType type)
@@ -73,6 +76,7 @@ public class BoardSegment : MonoBehaviour
         Unavailable,
         Available,
         Wall,
+        AtomNode,
         BondPlus,
         BondMinus,
         Rotate

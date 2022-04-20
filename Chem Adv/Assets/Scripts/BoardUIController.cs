@@ -12,6 +12,14 @@ public class BoardUIController : MonoBehaviour
     [SerializeField] public GameObject _wallPrefab;
     [SerializeField] public GameObject _basePrefab;
     [SerializeField] public GameObject _playerPrefab;
+    
+    
+    [SerializeField] public GameObject atomPrefab;
+    [SerializeField] public GameObject hydrogenPrefab;
+    [SerializeField] public GameObject oxygenPrefab;
+    [SerializeField] public GameObject nitrogenPrefab;
+    [SerializeField] public GameObject carbonPrefab;
+    [SerializeField] public GameObject heliumPrefab;
 
     public void ReloadSegmentUI(BoardSegment segment)
     {
