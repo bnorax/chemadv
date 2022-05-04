@@ -33,7 +33,23 @@ public class BoardSegment : MonoBehaviour
                 obj = _uiController._basePrefab;
                 break;
             case BoardSegmentType.AtomNode:
-                obj = _uiController.atomPrefab;
+                Atom atomComponent;
+                if (!TryGetComponent(out atomComponent))
+                    atomComponent = gameObject.AddComponent<Atom>();
+                switch (atomComponent.Type)
+                {
+                    case Atom.AtomType.Hydrogen:
+                        obj = _uiController.hydrogenPrefab;
+                        break;
+                    default:
+                        obj = _uiController.hydrogenPrefab;
+                        break;
+                        
+                }
+
+                GameObject newObject = Instantiate(obj, gameObject.transform);
+                gameObject.GetComponent<Image>().enabled = false;
+
                 break;
             default:
                 obj = _uiController._basePrefab;
@@ -41,9 +57,9 @@ public class BoardSegment : MonoBehaviour
         }
 
         //gameObject = obj;
-        //Image image = GetComponent<Image>();
-        //image.color = obj.GetComponent<Image>().color;
-        //PrefabUtility.RecordPrefabInstancePropertyModifications(image);
+        Image image = GetComponent<Image>();
+        if(image.isActiveAndEnabled) image.color = obj.GetComponent<Image>().color;
+        PrefabUtility.RecordPrefabInstancePropertyModifications(image);
     }
 
     public BoardSegment(int posX, int posY, BoardSegmentType type)
