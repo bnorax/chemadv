@@ -5,5 +5,5 @@ using UnityEngine;
 
 public class Molecule : MonoBehaviour
 {
-    private List<Atom> _molecule = new List<Atom>();
+    public List<Atom> _molecule = new List<Atom>();
 }
