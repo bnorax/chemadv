@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,15 +8,10 @@ public class BoardSegment : MonoBehaviour
 {
     private int _x = 0, _y = 0;//position on board
     [SerializeField] BoardSegmentType _type = BoardSegmentType.Unavailable;
-
+    [SerializeField]
 
     private BoardUIController _uiController;
-    public void Start()
-    {
-        
-    }
-
-    private void Awake()
+    private void Start()
     {
         _uiController = transform.parent.transform.parent.gameObject.GetComponent<BoardUIController>();
     }
@@ -35,22 +31,12 @@ public class BoardSegment : MonoBehaviour
             case BoardSegmentType.AtomNode:
                 Atom atomComponent;
                 if (!TryGetComponent(out atomComponent))
-                    atomComponent = gameObject.AddComponent<Atom>();
-                switch (atomComponent.Type)
-                {
-                    case Atom.AtomType.Hydrogen:
-                        obj = _uiController.hydrogenPrefab;
-                        break;
-                    default:
-                        obj = _uiController.hydrogenPrefab;
-                        break;
-                        
-                }
-
-                GameObject newObject = Instantiate(obj, gameObject.transform);
+                    UnityEditor.EditorApplication.delayCall+=()=>
+                    {
+                        atomComponent = gameObject.AddComponent<Atom>();
+                    };
                 gameObject.GetComponent<Image>().enabled = false;
-
-                break;
+                return;
             default:
                 obj = _uiController._basePrefab;
                 break;
