@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -9,12 +10,18 @@ public class Atom : MonoBehaviour
 
     private BoardUIController _uiController;
     public AtomType _atom; 
+    public int _availableBonds;
     private int _posX, _posY;
 
     
     private void Awake()
     {
         _uiController = transform.parent.transform.parent.gameObject.GetComponent<BoardUIController>();
+    }
+
+    private void Start()
+    {
+        _availableBonds = (int)Type+1;
     }
 
     public void OnValidate()
