@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Vector2 = System.Numerics.Vector2;
 
 public class Player : MonoBehaviour
 {
@@ -17,12 +18,35 @@ public class Player : MonoBehaviour
     private void Start()
     {
         _mainMolecule._molecule.Add(_mainAtom);
+        _mainMolecule._molecule.Add(_mainAtom);
     }
 
     void MoveMolecule(Vector2Int direction)
     {
         var moleculeSize = _mainMolecule._molecule.Count;
         var molecule = _mainMolecule._molecule;
+        if (direction == Vector2Int.right)
+        {
+            var maxXAtom = molecule.Where(a => a.transform.position.x == molecule.Max(a=>a.transform.position.x)).ToList();
+            for (var i = 0; i < maxXAtom.Count; i++)
+            {
+                if (!AvailableMove(maxXAtom[i], 1)) return;
+
+            }
+        }
+        if (direction == Vector2Int.left)
+        {
+            
+        }
+        if (direction == Vector2Int.up)
+        {
+            
+        }
+        if (direction == Vector2Int.down)
+        {
+            
+        }
+        //var maxXAtom = molecule.Where(a => a.transform.position.x == molecule.Max(a=>a.transform.position.x)).ToList();
         var xMax = molecule.Max(atom => atom.transform.position.x);
         var yMax = molecule.Max(atom => atom.transform.position.y);
         var xMin = molecule.Min(atom => atom.transform.position.x);
@@ -33,7 +57,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void AvailableSegmentMove(int difPosition)
+    bool AvailableMove(Atom atom, int difPosition)
     {
         
         var playerPosition = Array.IndexOf(_board._boardList, atom.gameObject);
@@ -46,16 +70,18 @@ public class Player : MonoBehaviour
                 _board._boardList[nextPosition].transform.position, transform1.position);
             (_board._boardList[playerPosition], _board._boardList[nextPosition]) = (
                 _board._boardList[nextPosition], _board._boardList[playerPosition]);
+            return true;
         }
 
-        if (nextPosSegment.Type == BoardSegment.BoardSegmentType.AtomNode)
-        {
-            if (atom._availableBonds > 0)
-            {
-                atom._availableBonds--;
-                _mainMolecule._molecule.Add(_board._boardList[nextPosition].GetComponent<Atom>());
-            }
-        }
+        return false;
+        // if (nextPosSegment.Type == BoardSegment.BoardSegmentType.AtomNode)
+        // {
+        //     if (atom._availableBonds > 0)
+        //     {
+        //         atom._availableBonds--;
+        //         _mainMolecule._molecule.Add(_board._boardList[nextPosition].GetComponent<Atom>());
+        //     }
+        // }
     }
     
     void InputUpdate()
