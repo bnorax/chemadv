@@ -1,15 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Doublsb.Dialog;
 using UnityEngine;
 using Vector2 = System.Numerics.Vector2;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Molecule _mainMolecule;
-    [SerializeField] private Atom _mainAtom;
-    [SerializeField] private Board _board;
+    [SerializeField] public Molecule _mainMolecule;
+    [SerializeField] public Atom _mainAtom;
+    [SerializeField] public Board _board;
     private int tempMovesMade;
+    [SerializeField] public DialogManager _dialogManager;
+    
+    
     private void Awake()
     {
         _mainMolecule = GetComponent<Molecule>();
@@ -123,6 +127,13 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W))
         {
             MoveMolecule(Vector2Int.up);
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            _dialogManager.gameObject.SetActive(true);
+            DialogData dialogData = new DialogData("/color:red/Evil robot\n"+ "/color:white//emote:Normal/Rot ebal tvoy", "Chemist");
+           // _dialogManager.Characters. GetComponent<RectTransform>().localScale = new Vector3(0.8f, 0.8f, 1);
+            _dialogManager.Show(dialogData);
         }
     }
 
