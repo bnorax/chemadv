@@ -8,7 +8,6 @@ public class BoardSegment : MonoBehaviour
 {
     private int _x = 0, _y = 0;//position on board
     [SerializeField] BoardSegmentType _type = BoardSegmentType.Unavailable;
-    [SerializeField]
 
     private BoardUIController _uiController;
     private void Start()

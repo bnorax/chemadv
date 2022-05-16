@@ -11,7 +11,7 @@ public class Atom : MonoBehaviour
     private BoardUIController _uiController;
     public AtomType _atom; 
     public int _availableBonds;
-    private int _posX, _posY;
+    public int _posX, _posY;
 
     
     private void Awake()
