@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6420603751693695392}
   - component: {fileID: 7570274973373249738}
   - component: {fileID: 3144632823758384340}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ RectTransform:
   m_GameObject: {fileID: 651688047813187275}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.85, y: 0.85, z: 1}
   m_Children: []
   m_Father: {fileID: 1620976001606649764}
   m_RootOrder: 1
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 8895712348274509775}
   - component: {fileID: 6966295921891693745}
   - component: {fileID: 3600877333582812903}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ RectTransform:
   m_GameObject: {fileID: 2330637276505126423}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.85, y: 0.85, z: 1}
   m_Children: []
   m_Father: {fileID: 1620976001606649764}
   m_RootOrder: 2
@@ -159,7 +159,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1620976001606649764}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Hydrogen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 8917751955817609098}
   - component: {fileID: 6027657694981842052}
   - component: {fileID: 343931068640165103}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Fon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -271,6 +271,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1620976001606649764}
     m_Modifications:
+    - target: {fileID: 5327591847995966896, guid: 16a557ecb2c20b24db2a377e8df4df33, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -10
+      objectReference: {fileID: 0}
     - target: {fileID: 7341871901161351129, guid: 16a557ecb2c20b24db2a377e8df4df33, type: 3}
       propertyPath: m_Name
       value: Bonds 1
@@ -361,25 +365,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16a557ecb2c20b24db2a377e8df4df33, type: 3}
---- !u!1 &497582067900769192 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7341871901161351129, guid: 16a557ecb2c20b24db2a377e8df4df33, type: 3}
-  m_PrefabInstance: {fileID: 7134922102254109809}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1349402484151174024 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8196093588127139833, guid: 16a557ecb2c20b24db2a377e8df4df33, type: 3}
   m_PrefabInstance: {fileID: 7134922102254109809}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2902881237550807226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 497582067900769192}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fba817b6eb2c8747be8f5e3a00bbd45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

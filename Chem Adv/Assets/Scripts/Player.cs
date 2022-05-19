@@ -56,11 +56,18 @@ public class Player : MonoBehaviour
             AvailableAtomMove(_moleculesToMove[0], atomPosition, nextPosition);
             //if (!AvailableMove(maxXAtom[i], 1)) return;
         }
+
+        List<Atom> atomsToAddToMoleculeAfterCheck = new List<Atom>();
         for (var i = 0; i < _mainMolecule._molecule.Count; i++)
         {
             var curAtom = _mainMolecule._molecule[i];
             var atomPosition = Array.IndexOf(_board._boardList, curAtom.gameObject);
-            CheckAvailableBonds(curAtom, atomPosition);
+            CheckAvailableBonds(curAtom, atomPosition, atomsToAddToMoleculeAfterCheck);
+        }
+
+        foreach (var atom in atomsToAddToMoleculeAfterCheck)
+        {
+            _mainMolecule._molecule.Add(atom);
         }
     }
 
@@ -85,10 +92,10 @@ public class Player : MonoBehaviour
         return false;
     }
 
-    void CheckAvailableBonds(Atom curAtom, int atomPosition)
+    void CheckAvailableBonds(Atom curAtom, int atomPosition, List<Atom> atomsToAddToMoleculeAfterCheck)
     {
         if(_mainMolecule._molecule.Contains(curAtom)) 
-            CheckNearAtomsForAvailableBond(curAtom, atomPosition);
+            CheckNearAtomsForAvailableBond(curAtom, atomPosition, atomsToAddToMoleculeAfterCheck);
     }
     
     void AvailableAtomMove(Atom curAtom, int atomPosition, int nextPosition)
@@ -115,9 +122,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    void CheckNearAtomsForAvailableBond(Atom curAtom, int atomPosition)
+    void CheckNearAtomsForAvailableBond(Atom curAtom, int atomPosition, List<Atom> atomsToAddToMoleculeAfterCheck)
     {
         List<Atom> closeAtoms = new List<Atom>();
+        
         var up = _board._boardList[atomPosition - 18].GetComponent<Atom>();
         if(up) closeAtoms.Add(up);
         var down = _board._boardList[atomPosition + 18].GetComponent<Atom>();
@@ -127,15 +135,20 @@ public class Player : MonoBehaviour
         var right = _board._boardList[atomPosition + 1].GetComponent<Atom>();
         if(right) closeAtoms.Add(right);
 
+        var curBondAnim = curAtom.GetComponentInChildren<BondsAnim>();
+        
         foreach (var closeAtom in closeAtoms)
         {
             if (closeAtom._availableBonds > 0
                 && curAtom._availableBonds > 0
                 && !_mainMolecule._molecule.Contains(closeAtom))
             {
+                var closeBondAnim = closeAtom.GetComponentInChildren<BondsAnim>();
+                curBondAnim.ChangeBond(false);
+                closeBondAnim.ChangeBond(false);
                 closeAtom._availableBonds--;
                 curAtom._availableBonds--;
-                _mainMolecule._molecule.Add(closeAtom);
+                if(!atomsToAddToMoleculeAfterCheck.Contains(closeAtom)) atomsToAddToMoleculeAfterCheck.Add(closeAtom);
                 ///_moleculesToMove.Add(closeAtom);
                 //_moleculesToMove.Add(closeAtom);
             }

@@ -41,3 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: UI
+    uniqueID: 1346461531
+    locked: 0
+  - name: UI1
+    uniqueID: 3592925607
+    locked: 0
+  - name: New Layer
+    uniqueID: 3002968397
+    locked: 0
