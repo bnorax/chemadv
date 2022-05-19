@@ -9,9 +9,14 @@ public class Player : MonoBehaviour
 {
     [SerializeField] public Molecule _mainMolecule;
     [SerializeField] public Atom _mainAtom;
+    private List<Atom> _moleculesToMove;
+    
+    
     [SerializeField] public Board _board;
     private int tempMovesMade;
     [SerializeField] public DialogManager _dialogManager;
+    [HideInInspector]
+    public bool _blockedInput;
     
     
     private void Awake()
@@ -23,31 +28,39 @@ public class Player : MonoBehaviour
     {
     }
 
-    void MoveMolecule(Vector2Int direction)
+    int VectorToInt(Vector2Int direction)
     {
-        var moleculesToMove= new List<Atom>(_mainMolecule._molecule);
-        var moleculesToMoveSize = moleculesToMove.Count;
-        for (var i = 0; i < moleculesToMove.Count; i++)
+        if (direction == Vector2Int.right) return 1;
+        if (direction == Vector2Int.left) return -1;
+        if (direction == Vector2Int.up) return -18;
+        if (direction == Vector2Int.down) return 18;
+        return 0;
+    }
+
+    void MoveMolecule(Vector2Int direction)
+    { 
+        _moleculesToMove= new List<Atom>(_mainMolecule._molecule);
+        var difPosition = VectorToInt(direction);
+        
+        for (var i = 0; i < _moleculesToMove.Count; i++)
         {
-            var atomPosition = Array.IndexOf(_board._boardList, moleculesToMove[i].gameObject);
-            var difPosition = 0;
-            if (direction == Vector2Int.right) difPosition = 1;
-            else if (direction == Vector2Int.left) difPosition = -1;
-            else if (direction == Vector2Int.up) difPosition = -18;
-            else if (direction == Vector2Int.down) difPosition = 18;
-            var nextPosition = atomPosition + difPosition;
+            var atomPosition = Array.IndexOf(_board._boardList, _moleculesToMove[i].gameObject);
+            
             if(!CheckNextAtomMove(atomPosition, difPosition)) return;
         }
-        while(moleculesToMove.Count != 0)
+        while(_moleculesToMove.Count != 0)
         {
-            var atomPosition = Array.IndexOf(_board._boardList, moleculesToMove[0].gameObject);
-            var nextPosition = atomPosition;
-            if (direction == Vector2Int.right) nextPosition += 1;
-            else if (direction == Vector2Int.left) nextPosition -= 1;
-            else if (direction == Vector2Int.up) nextPosition -= 18;
-            else if (direction == Vector2Int.down) nextPosition += 18;
-            AvailableAtomMove(moleculesToMove, moleculesToMove[0], atomPosition, nextPosition);
+            var atomPosition = Array.IndexOf(_board._boardList, _moleculesToMove[0].gameObject);
+            var nextPosition = atomPosition+difPosition;
+            
+            AvailableAtomMove(_moleculesToMove[0], atomPosition, nextPosition);
             //if (!AvailableMove(maxXAtom[i], 1)) return;
+        }
+        for (var i = 0; i < _mainMolecule._molecule.Count; i++)
+        {
+            var curAtom = _mainMolecule._molecule[i];
+            var atomPosition = Array.IndexOf(_board._boardList, curAtom.gameObject);
+            CheckAvailableBonds(curAtom, atomPosition);
         }
     }
 
@@ -71,28 +84,62 @@ public class Player : MonoBehaviour
 
         return false;
     }
-    
-    void AvailableAtomMove(List<Atom> moleculesToMove, Atom curAtom, int atomPosition, int nextPosition)
+
+    void CheckAvailableBonds(Atom curAtom, int atomPosition)
     {
-        if (moleculesToMove.Count == 0) return;
+        if(_mainMolecule._molecule.Contains(curAtom)) 
+            CheckNearAtomsForAvailableBond(curAtom, atomPosition);
+    }
+    
+    void AvailableAtomMove(Atom curAtom, int atomPosition, int nextPosition)
+    {
+        if (_moleculesToMove.Count == 0) return;
         BoardSegment nextPosSegment = _board._boardList[nextPosition].GetComponent<BoardSegment>();
 
         if (nextPosSegment.Type == BoardSegment.BoardSegmentType.Available)
         {
             MoveAtom(atomPosition, nextPosition);
-            moleculesToMove.Remove(_board._boardList[nextPosition].GetComponent<Atom>());
+            _moleculesToMove.Remove(_board._boardList[nextPosition].GetComponent<Atom>());
         }
         else if (nextPosSegment.Type == BoardSegment.BoardSegmentType.AtomNode)
         {
-            AvailableAtomMove(moleculesToMove, _board._boardList[nextPosition].GetComponent<Atom>(), atomPosition+(nextPosition-atomPosition), nextPosition+(nextPosition-atomPosition));
+            var nextAtom = _board._boardList[nextPosition].GetComponent<Atom>();
+            
+            AvailableAtomMove(nextAtom, atomPosition + (nextPosition - atomPosition),
+                nextPosition + (nextPosition - atomPosition));
         }
         else
         {
-            moleculesToMove.Remove(_board._boardList[nextPosition].GetComponent<Atom>());
+            _moleculesToMove.Remove(_board._boardList[nextPosition].GetComponent<Atom>());
             return;
         }
-       // moleculesToMove.Remove(_board._boardList[nextPosition].GetComponent<Atom>());
-        ///ВАЖНО: копия _молекула и удалить оттуда при муве
+    }
+
+    void CheckNearAtomsForAvailableBond(Atom curAtom, int atomPosition)
+    {
+        List<Atom> closeAtoms = new List<Atom>();
+        var up = _board._boardList[atomPosition - 18].GetComponent<Atom>();
+        if(up) closeAtoms.Add(up);
+        var down = _board._boardList[atomPosition + 18].GetComponent<Atom>();
+        if(down) closeAtoms.Add(down);
+        var left = _board._boardList[atomPosition - 1].GetComponent<Atom>();
+        if(left) closeAtoms.Add(left);
+        var right = _board._boardList[atomPosition + 1].GetComponent<Atom>();
+        if(right) closeAtoms.Add(right);
+
+        foreach (var closeAtom in closeAtoms)
+        {
+            if (closeAtom._availableBonds > 0
+                && curAtom._availableBonds > 0
+                && !_mainMolecule._molecule.Contains(closeAtom))
+            {
+                closeAtom._availableBonds--;
+                curAtom._availableBonds--;
+                _mainMolecule._molecule.Add(closeAtom);
+                ///_moleculesToMove.Add(closeAtom);
+                //_moleculesToMove.Add(closeAtom);
+            }
+        }
     }
 
     void MoveAtom(int atomPosition, int nextPosition)
@@ -128,17 +175,17 @@ public class Player : MonoBehaviour
         {
             MoveMolecule(Vector2Int.up);
         }
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            _dialogManager.gameObject.SetActive(true);
-            DialogData dialogData = new DialogData("/color:red/Evil robot\n"+ "/color:white//emote:Normal/Rot ebal tvoy", "Chemist");
-           // _dialogManager.Characters. GetComponent<RectTransform>().localScale = new Vector3(0.8f, 0.8f, 1);
-            _dialogManager.Show(dialogData);
-        }
+        // if (Input.GetKeyDown(KeyCode.F))
+        // {
+        //     _dialogManager.gameObject.SetActive(true);
+        //     DialogData dialogData = new DialogData("/color:red/Evil robot\n"+ "/color:white//emote:Normal/Хочу питцы", "Chemist");
+        //    // _dialogManager.Characters. GetComponent<RectTransform>().localScale = new Vector3(0.8f, 0.8f, 1);
+        //     _dialogManager.Show(dialogData);
+        // }
     }
 
     private void Update()
     {
-        if(Input.anyKeyDown) InputUpdate();
+        if(!_blockedInput) InputUpdate();
     }
 }

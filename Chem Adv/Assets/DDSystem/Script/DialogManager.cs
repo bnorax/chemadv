@@ -59,6 +59,8 @@ namespace Doublsb.Dialog
         [HideInInspector]
         public State state;
 
+        [SerializeField] public Player player;
+
         [HideInInspector]
         public string Result;
 
@@ -79,6 +81,8 @@ namespace Doublsb.Dialog
         #region Show & Hide
         public void Show(DialogData Data)
         {
+            player._blockedInput = true;
+            
             _current_Data = Data;
             _find_character(Data.Character);
 
@@ -113,11 +117,12 @@ namespace Doublsb.Dialog
             if(_printingRoutine != null)
                 StopCoroutine(_printingRoutine);
 
-            Printer.SetActive(false);
-            Characters.SetActive(false);
-            Selector.SetActive(false);
-
+           // Printer.SetActive(false);
+           // Characters.SetActive(false);
+           // Selector.SetActive(false);
+            gameObject.SetActive(false);
             state = State.Deactivate;
+            player._blockedInput = false;
 
             if (_current_Data.Callback != null)
             {
@@ -261,7 +266,6 @@ namespace Doublsb.Dialog
             {
                 Show(Data);
                 _init_selector();
-
                 while (state != State.Deactivate) { yield return null; }
             }
         }

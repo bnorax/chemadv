@@ -34,7 +34,7 @@ public class BoardSegment : MonoBehaviour
                     {
                         atomComponent = gameObject.AddComponent<Atom>();
                     };
-                gameObject.GetComponent<Image>().enabled = false;
+                //gameObject.GetComponent<Image>().enabled = false;
                 return;
             default:
                 obj = _uiController._basePrefab;

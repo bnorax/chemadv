@@ -42,18 +42,23 @@ public class Atom : MonoBehaviour
         {
             case AtomType.Hydrogen:
                 obj = _uiController.hydrogenPrefab;
+                _availableBonds = 1;
                 break;
             case AtomType.Oxygen:
                 obj = _uiController.oxygenPrefab;
+                _availableBonds = 2;
                 break;
             case AtomType.Nitrogen:
                 obj = _uiController.nitrogenPrefab;
+                _availableBonds = 3;
                 break;
             case AtomType.Carbon:
                 obj = _uiController.carbonPrefab;
+                _availableBonds = 4;
                 break;
             default:
                 obj = _uiController.hydrogenPrefab;
+                _availableBonds = 1;
                 break;
 
         }
