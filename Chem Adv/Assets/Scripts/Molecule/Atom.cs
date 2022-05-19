@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using UnityEditor;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -23,7 +24,9 @@ public class Atom : MonoBehaviour
     {
         _availableBonds = (int)Type+1;
     }
-
+    
+    
+    #if UNITY_EDITOR
     public void OnValidate()
     {
         if (_uiController == null) return;
@@ -69,6 +72,7 @@ public class Atom : MonoBehaviour
             GameObject newObject = Instantiate(obj, gameObject.transform);
         };
     }
+    #endif
 
     Atom(int x = 5, int y = 5, AtomType atom = AtomType.Hydrogen)
     { 

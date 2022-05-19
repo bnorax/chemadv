@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Doublsb.Dialog;
+using Unity.VectorGraphics;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Scene = UnityEngine.SceneManagement.Scene;
 using Vector2 = System.Numerics.Vector2;
 
 public class Player : MonoBehaviour
@@ -187,6 +191,14 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W))
         {
             MoveMolecule(Vector2Int.up);
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         // if (Input.GetKeyDown(KeyCode.F))
         // {
