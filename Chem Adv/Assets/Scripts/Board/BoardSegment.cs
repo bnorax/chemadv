@@ -23,10 +23,10 @@ public class BoardSegment : MonoBehaviour
         switch (Type)
         {
             case BoardSegmentType.Wall:
-                obj = _uiController._wallPrefab;
+                obj = _uiController.wallPrefab;
                 break;
             case BoardSegmentType.Available:
-                obj = _uiController._basePrefab;
+                obj = _uiController.basePrefab;
                 break;
             case BoardSegmentType.AtomNode:
                 Atom atomComponent;
@@ -38,7 +38,7 @@ public class BoardSegment : MonoBehaviour
                 //gameObject.GetComponent<Image>().enabled = false;
                 return;
             default:
-                obj = _uiController._basePrefab;
+                obj = _uiController.basePrefab;
                 break;
         }
 

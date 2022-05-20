@@ -4,19 +4,14 @@ using UnityEngine;
 
 public class BondsAnim : MonoBehaviour
 {
-    [SerializeField] public List<GameObject> _bondsList;
-    //[SerializeField] public GameObject _bonds;
-    // [SerializeField] public GameObject _oneBond;
-    // [SerializeField] public GameObject _twoBond;
-    // [SerializeField] public GameObject _threeBond;
-    // [SerializeField] public GameObject _fourBond;
-    //
-    private Atom atom;
+    [SerializeField] public List<GameObject> bondsList;
+
+    private Atom _atom;
     private int _childCount;
 
     private void Start()
     {
-        atom = transform.parent.transform.parent.GetComponent<Atom>();
+        _atom = transform.parent.transform.parent.GetComponent<Atom>();
         _childCount = transform.childCount;
     }
 
@@ -24,8 +19,8 @@ public class BondsAnim : MonoBehaviour
     {
         if (add)
         {
-            if (atom._availableBonds > _childCount) return;
-            foreach (var bond in _bondsList)
+            if (_atom._availableBonds > _childCount) return;
+            foreach (var bond in bondsList)
             {
                 if (!bond.activeSelf)
                 {
@@ -36,8 +31,8 @@ public class BondsAnim : MonoBehaviour
         }
         else
         {
-            if (atom._availableBonds > _childCount) return;
-            foreach (var bond in _bondsList)
+            if (_atom._availableBonds > _childCount) return;
+            foreach (var bond in bondsList)
             {
                 if (bond.activeSelf)
                 {

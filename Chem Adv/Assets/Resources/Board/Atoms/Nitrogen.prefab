@@ -466,7 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fba817b6eb2c8747be8f5e3a00bbd45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bondsList:
+  bondsList:
   - {fileID: 8649959134362183648}
   - {fileID: 599768725117241036}
   - {fileID: 516321228057855523}

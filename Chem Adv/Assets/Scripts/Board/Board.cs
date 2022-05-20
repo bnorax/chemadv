@@ -13,8 +13,8 @@ public class Board : MonoBehaviour
     private GridLayoutGroup _gridLayout;
     void Start()
     {
-        _gridLayout = _uiController._boardCanvas.GetComponent<GridLayoutGroup>();
-        var canvasTransform = _uiController._boardCanvas.transform;
+        _gridLayout = _uiController.boardCanvas.GetComponent<GridLayoutGroup>();
+        var canvasTransform = _uiController.boardCanvas.transform;
         var childCount = canvasTransform.childCount;
         _boardList = new GameObject[childCount];
         for (var i = 0; i < childCount; i++)

@@ -81,7 +81,7 @@ namespace Doublsb.Dialog
         #region Show & Hide
         public void Show(DialogData Data)
         {
-            player._blockedInput = true;
+            player.blockedInput = true;
             
             _current_Data = Data;
             _find_character(Data.Character);
@@ -122,7 +122,7 @@ namespace Doublsb.Dialog
            // Selector.SetActive(false);
             gameObject.SetActive(false);
             state = State.Deactivate;
-            player._blockedInput = false;
+            player.blockedInput = false;
 
             if (_current_Data.Callback != null)
             {

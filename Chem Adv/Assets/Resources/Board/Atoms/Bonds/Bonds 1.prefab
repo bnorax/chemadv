@@ -161,7 +161,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8196093588127139833}
   - component: {fileID: 7164627928026838745}
-  - component: {fileID: 2902881237550807226}
   - component: {fileID: 1172834230295617557}
   m_Layer: 6
   m_Name: Bonds 1
@@ -198,20 +197,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7341871901161351129}
   m_CullTransparentMesh: 1
---- !u!114 &2902881237550807226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7341871901161351129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fba817b6eb2c8747be8f5e3a00bbd45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _bondsList:
-  - {fileID: 1970784858163536499}
 --- !u!210 &1172834230295617557
 SortingGroup:
   m_ObjectHideFlags: 0

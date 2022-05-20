@@ -6,15 +6,12 @@ using UnityEngine.UI;
 
 public class BoardUIController : MonoBehaviour
 {
-    [SerializeField] public Board _boardScript;
-    [SerializeField] public GameObject _boardObject;
-    [SerializeField] public Canvas _boardCanvas;
-    [SerializeField] public GameObject _wallPrefab;
-    [SerializeField] public GameObject _basePrefab;
-    [SerializeField] public GameObject _playerPrefab;
+    [SerializeField] public Board boardScript;
+    [SerializeField] public GameObject boardObject;
+    [SerializeField] public Canvas boardCanvas;
+    [SerializeField] public GameObject wallPrefab;
+    [SerializeField] public GameObject basePrefab;
     
-    
-    [SerializeField] public GameObject atomPrefab;
     [SerializeField] public GameObject hydrogenPrefab;
     [SerializeField] public GameObject oxygenPrefab;
     [SerializeField] public GameObject nitrogenPrefab;
