@@ -11,8 +11,9 @@ public class Player : MonoBehaviour
     private List<Atom> _moleculesToMove;
     
     [SerializeField] public Board board;
+
+    [SerializeField] public int numberOfAtomsToCollect;
    // private int _tempMovesMade;
-    [SerializeField] public DialogManager dialogManager;
     [HideInInspector]
     public bool blockedInput;
 
@@ -23,6 +24,17 @@ public class Player : MonoBehaviour
         mainMolecule._molecule.Add(mainAtom);
     }
 
+    bool WinCheck()
+    {
+        if (numberOfAtomsToCollect != mainMolecule._molecule.Count) return false;
+        // foreach (var atom in mainMolecule._molecule)
+        // {
+        //     if(!winCheck.Contains(atom)) return false;
+        // }
+
+        return true;
+    }
+    
     private void Awake()
     {
         mainMolecule = GetComponent<Molecule>();
@@ -44,13 +56,13 @@ public class Player : MonoBehaviour
         
         for (var i = 0; i < _moleculesToMove.Count; i++)
         {
-            var atomPosition = Array.IndexOf(board._boardList, _moleculesToMove[i].gameObject);
+            var atomPosition = Array.IndexOf(board.boardList, _moleculesToMove[i].gameObject);
             
             if(!CheckNextAtomMove(atomPosition, difPosition)) return;
         }
         while(_moleculesToMove.Count != 0)
         {
-            var atomPosition = Array.IndexOf(board._boardList, _moleculesToMove[0].gameObject);
+            var atomPosition = Array.IndexOf(board.boardList, _moleculesToMove[0].gameObject);
             var nextPosition = atomPosition+difPosition;
             
             AvailableAtomMove(_moleculesToMove[0], atomPosition, nextPosition);
@@ -61,7 +73,7 @@ public class Player : MonoBehaviour
         for (var i = 0; i < mainMolecule._molecule.Count; i++)
         {
             var curAtom = mainMolecule._molecule[i];
-            var atomPosition = Array.IndexOf(board._boardList, curAtom.gameObject);
+            var atomPosition = Array.IndexOf(board.boardList, curAtom.gameObject);
             CheckAvailableBonds(curAtom, atomPosition, atomsToAddToMoleculeAfterCheck);
         }
 
@@ -69,11 +81,16 @@ public class Player : MonoBehaviour
         {
             mainMolecule._molecule.Add(atom);
         }
+
+        if (WinCheck())
+        {
+            var i = 0;
+        }
     }
 
     bool CheckNextAtomMove(int atomPosition, int difPosition)
     {
-        BoardSegment nextPosSegment = board._boardList[atomPosition+difPosition].GetComponent<BoardSegment>();
+        BoardSegment nextPosSegment = board.boardList[atomPosition+difPosition].GetComponent<BoardSegment>();
 
         if (nextPosSegment.Type == BoardSegment.BoardSegmentType.Available)
         {
@@ -101,23 +118,23 @@ public class Player : MonoBehaviour
     void AvailableAtomMove(Atom curAtom, int atomPosition, int nextPosition)
     {
         if (_moleculesToMove.Count == 0) return;
-        BoardSegment nextPosSegment = board._boardList[nextPosition].GetComponent<BoardSegment>();
+        BoardSegment nextPosSegment = board.boardList[nextPosition].GetComponent<BoardSegment>();
 
         if (nextPosSegment.Type == BoardSegment.BoardSegmentType.Available)
         {
             MoveAtom(atomPosition, nextPosition);
-            _moleculesToMove.Remove(board._boardList[nextPosition].GetComponent<Atom>());
+            _moleculesToMove.Remove(board.boardList[nextPosition].GetComponent<Atom>());
         }
         else if (nextPosSegment.Type == BoardSegment.BoardSegmentType.AtomNode)
         {
-            var nextAtom = board._boardList[nextPosition].GetComponent<Atom>();
+            var nextAtom = board.boardList[nextPosition].GetComponent<Atom>();
             
             AvailableAtomMove(nextAtom, atomPosition + (nextPosition - atomPosition),
                 nextPosition + (nextPosition - atomPosition));
         }
         else
         {
-            _moleculesToMove.Remove(board._boardList[nextPosition].GetComponent<Atom>());
+            _moleculesToMove.Remove(board.boardList[nextPosition].GetComponent<Atom>());
         }
     }
 
@@ -125,13 +142,13 @@ public class Player : MonoBehaviour
     {
         List<Atom> closeAtoms = new List<Atom>();
         
-        var up = board._boardList[atomPosition - 18].GetComponent<Atom>();
+        var up = board.boardList[atomPosition - 18].GetComponent<Atom>();
         if(up) closeAtoms.Add(up);
-        var down = board._boardList[atomPosition + 18].GetComponent<Atom>();
+        var down = board.boardList[atomPosition + 18].GetComponent<Atom>();
         if(down) closeAtoms.Add(down);
-        var left = board._boardList[atomPosition - 1].GetComponent<Atom>();
+        var left = board.boardList[atomPosition - 1].GetComponent<Atom>();
         if(left) closeAtoms.Add(left);
-        var right = board._boardList[atomPosition + 1].GetComponent<Atom>();
+        var right = board.boardList[atomPosition + 1].GetComponent<Atom>();
         if(right) closeAtoms.Add(right);
 
         var curBondAnim = curAtom.GetComponentInChildren<BondsAnim>();
@@ -154,13 +171,13 @@ public class Player : MonoBehaviour
 
     void MoveAtom(int atomPosition, int nextPosition)
     {
-        var transform1 = board._boardList[atomPosition].transform;
-        var transformNext = board._boardList[nextPosition].transform;
+        var transform1 = board.boardList[atomPosition].transform;
+        var transformNext = board.boardList[nextPosition].transform;
         (transform1.position, transformNext.position) = (
             transformNext.position, transform1.position);
             
-        (board._boardList[atomPosition], board._boardList[nextPosition]) = (
-            board._boardList[nextPosition], board._boardList[atomPosition]);
+        (board.boardList[atomPosition], board.boardList[nextPosition]) = (
+            board.boardList[nextPosition], board.boardList[atomPosition]);
     }
     
     void InputUpdate()
