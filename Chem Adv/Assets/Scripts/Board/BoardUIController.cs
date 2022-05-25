@@ -11,6 +11,8 @@ public class BoardUIController : MonoBehaviour
     [SerializeField] public Canvas boardCanvas;
     [SerializeField] public GameObject wallPrefab;
     [SerializeField] public GameObject basePrefab;
+    [SerializeField] public GameObject unavailablePrefab;
+    
     
     [SerializeField] public GameObject hydrogenPrefab;
     [SerializeField] public GameObject oxygenPrefab;

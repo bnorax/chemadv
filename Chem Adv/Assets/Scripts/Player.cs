@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField] public Molecule mainMolecule;
     [SerializeField] public Atom mainAtom;
     private List<Atom> _moleculesToMove;
-    
+    [SerializeField] public DialogManager dialogManager;
     [SerializeField] public Board board;
 
     [SerializeField] public int numberOfAtomsToCollect;
@@ -207,7 +207,9 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.G))
         {
-            
+            DialogData slimeD = new DialogData("/color:lime/Глоб\n"+"/color:white/Тебе нужно собрать молекулу!", "Slime");
+            dialogManager.gameObject.SetActive(true);
+            dialogManager.Show(slimeD);
         }
         // if (Input.GetKeyDown(KeyCode.R))
         // {

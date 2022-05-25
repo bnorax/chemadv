@@ -12,9 +12,8 @@ public class Atom : MonoBehaviour
     private BoardUIController _uiController;
     public AtomType _atom; 
     public int _availableBonds;
-    public int _posX, _posY;
 
-    
+
     private void Awake()
     {
         _uiController = transform.parent.transform.parent.gameObject.GetComponent<BoardUIController>();
@@ -74,10 +73,8 @@ public class Atom : MonoBehaviour
     }
     #endif
 
-    Atom(int x = 5, int y = 5, AtomType atom = AtomType.Hydrogen)
-    { 
-        _posX = x;
-        _posY = y; 
+    Atom(AtomType atom = AtomType.Hydrogen)
+    {
         _atom = atom;
     }
     public AtomType Type
