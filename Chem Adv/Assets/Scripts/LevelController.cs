@@ -9,7 +9,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] public GameObject currentLevel;
     [SerializeField] public int currentLevelIndex;
 
-    void ChangeLevel(int levelIndex = 0)
+    public void ChangeLevel(int levelIndex = 0)
     {
         if(currentLevel) Destroy(currentLevel);
         currentLevel = Instantiate(levelList[levelIndex]);

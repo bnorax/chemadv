@@ -133,7 +133,7 @@ namespace Doublsb.Dialog
 
         public bool isSkippable = true;
         public UnityAction Callback = null;
-
+      
         //================================================
         //Public Method
         //================================================

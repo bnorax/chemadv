@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Doublsb.Dialog;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
@@ -16,6 +17,8 @@ public class Player : MonoBehaviour
    // private int _tempMovesMade;
     [HideInInspector]
     public bool blockedInput;
+
+    public UnityEvent nextLevel;
 
     private void OnEnable()
     {
@@ -84,7 +87,8 @@ public class Player : MonoBehaviour
 
         if (WinCheck())
         {
-            var i = 0;
+            blockedInput = true;
+            nextLevel.Invoke();
         }
     }
 
