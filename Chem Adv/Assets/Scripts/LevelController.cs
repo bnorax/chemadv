@@ -26,8 +26,6 @@ public class LevelController : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1)) ChangeLevel(0);
-        if(Input.GetKeyDown(KeyCode.Alpha2)) ChangeLevel(1);
         if(Input.GetKeyDown(KeyCode.R)) ChangeLevel(currentLevelIndex);
     }
 

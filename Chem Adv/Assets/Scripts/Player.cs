@@ -4,6 +4,7 @@ using Doublsb.Dialog;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -18,10 +19,15 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public bool blockedInput;
 
+    [SerializeField] public Image background;
     public UnityEvent nextLevel;
-
+    private Color backgroundFaded;
+    private Color backgroundNormal;
     private void OnEnable()
     {
+        backgroundFaded = new Color(0.5f, 0.5f, 0.5f, 1f);
+        backgroundNormal = new Color(1f, 1f, 1f, 1f);
+        background.color = backgroundFaded;
         _moleculesToMove?.Clear();
         mainMolecule._molecule.Clear();
         mainMolecule._molecule.Add(mainAtom);
@@ -41,6 +47,15 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         mainMolecule = GetComponent<Molecule>();
+    }
+
+    private void Start()
+    {
+    }
+
+    private void OnDestroy()
+    {
+        background.color = backgroundNormal;
     }
 
     int VectorToInt(Vector2Int direction)
@@ -209,12 +224,6 @@ public class Player : MonoBehaviour
         {
             Application.Quit();
         }
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            DialogData slimeD = new DialogData("/color:lime/Глоб\n"+"/color:white/Тебе нужно собрать молекулу!", "Slime");
-            dialogManager.gameObject.SetActive(true);
-            dialogManager.Show(slimeD);
-        }
         // if (Input.GetKeyDown(KeyCode.R))
         // {
         //     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -224,5 +233,15 @@ public class Player : MonoBehaviour
     private void Update()
     {
         if(!blockedInput) InputUpdate();
+    }
+
+    public void BlockInput()
+    {
+        blockedInput = true;
+    }
+
+    public void UnblockInput()
+    {
+        blockedInput = false;
     }
 }

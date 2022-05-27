@@ -15,10 +15,12 @@ public class MainScript : MonoBehaviour
     [SerializeField] public Color backgroundFaded;
     [SerializeField] public Color background;
     private bool levelOneEnd;
+    public UnityEvent blockInput;
+    public UnityEvent unblockInput;
 
     private void Awake()
     {
-        backgroundImage.color = backgroundFaded;
+       // backgroundImage.color = backgroundFaded;
         dialogManager.gameObject.SetActive(true);
         List<DialogData> convo = new List<DialogData>();
         
@@ -39,7 +41,21 @@ public class MainScript : MonoBehaviour
         convo.Add(new DialogData("/color:lime/Глоб\n"+"/color:white/"+
                                  "Хм? Зачем?", "Slime"));
         convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
-                                 "Сделаем свою воду!", "Main", () => levelController.ChangeLevel(3)));
+                                 "Сделаем свою воду!", "Main"));
+        convo.Add(new DialogData("/color:orange/Леша\n" + "/color:white/" +
+                                 "Новенький, хватит прятаться в углу. Самое время мне объяснить как тут все работает",
+            "Main", () =>
+            {
+                levelController.ChangeLevel(2);
+                var player = levelController.currentLevel.GetComponentInChildren<Player>();
+                if(player) player.BlockInput();
+            }));
+        convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
+                                 "Глянь в микроскоп, перед тобой поле из клеток", "Main"));
+        convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
+                                 "Если присмотришься повнимательнее, то увидишь атомы", "Main"));
+        convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
+                                 "Не выходи за /color:red/красные /color:white/клетки – это границы работы манипулятора", "Main", () =>StartConvo2()));
         dialogManager.Show(convo);
 
 
@@ -50,21 +66,59 @@ public class MainScript : MonoBehaviour
         
     }
 
-    public void Convo2()
+    void StartConvo2()
     {
         List<DialogData> convo = new List<DialogData>();
-        
-        convo.Add(new DialogData("Готовь стаканы", "Main"));
-        convo.Add(new DialogData("Готовь стаканы", "Main"));
-        convo.Add(new DialogData("Готовь стаканы", "Main"));
-        convo.Add(new DialogData("Готовь стаканы", "Main"));
-        convo.Add(new DialogData("Готовь стаканы", "Main"));
-        
-        
-        convo.Add(new DialogData("Loh", "Main", () => { levelController.ChangeLevel(1);}));
+        convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
+                                 "А теперь возьми манипулятор и попробуй подвинуть атом", "Main"));
+        convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
+                                 "Дальше них ты не сможешь двинуть атом", "Main"));
+        convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
+                                 "Используй /color:yellow/WASD /color:white/для управления молекулой", "Main"));
+        convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
+                                 "А теперь попробуй собрать молекулу воды", "Main", () =>
+        {
+            var player = levelController.currentLevel.GetComponentInChildren<Player>();
+            if(player) player.UnblockInput();
+        }));
         dialogManager.Show(convo);
     }
+    public void FinishedLvl1Water()
+    {
+        List<DialogData> convo = new List<DialogData>();
+        convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
+                                 "Неплохо, неплохо. Тебе есть еще чему учится", "Main"));
+        convo.Add(new DialogData("/color:lime/Глоб\n" + "/color:white/" +
+                                 "/color:orange/Леша/color:white/! Срочно! Плохие новости", "Slime"));
+        convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
+                                 "/color:lime/Глоб/color:white/, что случилось? Мы заняты", "Main"));
+        convo.Add(new DialogData("/color:lime/Глоб\n" + "/color:white/" +
+                                 "Балон, взрыв раньше... Это был балон с газом!", "Slime"));
+        convo.Add(new DialogData("/color:lime/Глоб\n" + "/color:white/" +
+                                 "Не видать нам сегодня горячего обеда...", "Slime"));
+        convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
+                                 "Вот незадача, но ничего, это хорошая возможность новичку потренироватся", "Main"));
+        convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
+                                 "Попробуй сделать молекулу метана, из этого вещества состоит природный газ", "Main", () => levelController.ChangeLevel(1)));
+        
+        
+        
+        
+        //convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
+                             //    "Используй /color:yellow/WASD /color:white/для управления молекулой", "Main"));
+        //convo.Add(new DialogData("Loh", "Main", () => { levelController.ChangeLevel(1);}));
+        dialogManager.Show(convo);
+    }
+
+    public void FinishedLvl2Methane()
+    {
+        
+    }
     
+    public void FinishedLvl3Methane()
+    {
+        
+    }
     
     void Slime1()
     {
