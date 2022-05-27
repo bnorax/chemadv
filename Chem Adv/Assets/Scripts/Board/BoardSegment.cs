@@ -15,7 +15,7 @@ public class BoardSegment : MonoBehaviour
         _uiController = transform.parent.transform.parent.gameObject.GetComponent<BoardUIController>();
     }
     
-    //#if UNITY_EDITOR
+    #if UNITY_EDITOR
     private void OnValidate()
     {
         if (_uiController == null) return;
@@ -50,7 +50,7 @@ public class BoardSegment : MonoBehaviour
         if(image.isActiveAndEnabled) image.color = obj.GetComponent<Image>().color;
         PrefabUtility.RecordPrefabInstancePropertyModifications(image);
     }
-    //#endif
+    #endif
 
     public BoardSegment(int posX, int posY, BoardSegmentType type)
     {

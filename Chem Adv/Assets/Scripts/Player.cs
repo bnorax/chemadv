@@ -21,12 +21,10 @@ public class Player : MonoBehaviour
 
     [SerializeField] public Image background;
     public UnityEvent nextLevel;
-    private Color backgroundFaded;
-    private Color backgroundNormal;
+    private Color backgroundFaded= new Color(0.5f, 0.5f, 0.5f, 1f);
+    private Color backgroundNormal = new Color(1f, 1f, 1f, 1f);
     private void OnEnable()
     {
-        backgroundFaded = new Color(0.5f, 0.5f, 0.5f, 1f);
-        backgroundNormal = new Color(1f, 1f, 1f, 1f);
         background.color = backgroundFaded;
         _moleculesToMove?.Clear();
         mainMolecule._molecule.Clear();
@@ -53,9 +51,9 @@ public class Player : MonoBehaviour
     {
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        background.color = backgroundNormal;
+        //background.color = backgroundNormal;
     }
 
     int VectorToInt(Vector2Int direction)

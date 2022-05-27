@@ -25,7 +25,7 @@ public class MainScript : MonoBehaviour
         List<DialogData> convo = new List<DialogData>();
         
         convo.Add(new DialogData("/color:lime/Глоб\n"+"/color:white/"+
-                                 "Эй! Ало! Подъем.", "Slime"));
+                                 "Эй! Ало! Подъем", "Slime"));
         
         convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
                                  "А? Что случилось?", "Main"));
@@ -33,7 +33,7 @@ public class MainScript : MonoBehaviour
         convo.Add(new DialogData("/color:lime/Глоб\n"+"/color:white/"+
                                  "Бум! Большой бум.", "Slime"));
         convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
-                                 "Взрыв? Видимо немного переборщили с водородом... Голова до сих пор звенит", "Main"));
+                                 "Видимо немного переборщили с водородом...", "Main"));
         convo.Add(new DialogData("/color:lime/Глоб\n"+"/color:white/"+
                                  "Давай передохнем, где-то должна быть вода. А ой, она закончилась...", "Slime"));
         convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
@@ -43,10 +43,10 @@ public class MainScript : MonoBehaviour
         convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
                                  "Сделаем свою воду!", "Main"));
         convo.Add(new DialogData("/color:orange/Леша\n" + "/color:white/" +
-                                 "Новенький, хватит прятаться в углу. Самое время мне объяснить как тут все работает",
+                                 "Новенький, хватит прятаться в углу. Самое время объяснить как тут все работает",
             "Main", () =>
             {
-                levelController.ChangeLevel(2);
+                levelController.ChangeLevel(0);
                 var player = levelController.currentLevel.GetComponentInChildren<Player>();
                 if(player) player.BlockInput();
             }));
@@ -70,9 +70,9 @@ public class MainScript : MonoBehaviour
     {
         List<DialogData> convo = new List<DialogData>();
         convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
-                                 "А теперь возьми манипулятор и попробуй подвинуть атом", "Main"));
+                                 "Дальше них ты не сможешь сдвинуть атом", "Main"));
         convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
-                                 "Дальше них ты не сможешь двинуть атом", "Main"));
+                                 "А теперь возьми манипулятор и попробуй подвинуть атом", "Main"));
         convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
                                  "Используй /color:yellow/WASD /color:white/для управления молекулой", "Main"));
         convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
@@ -87,7 +87,7 @@ public class MainScript : MonoBehaviour
     {
         List<DialogData> convo = new List<DialogData>();
         convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
-                                 "Неплохо, неплохо. Тебе есть еще чему учится", "Main"));
+                                 "Неплохо, неплохо. Тебе есть еще чему учиться", "Main"));
         convo.Add(new DialogData("/color:lime/Глоб\n" + "/color:white/" +
                                  "/color:orange/Леша/color:white/! Срочно! Плохие новости", "Slime"));
         convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
@@ -97,7 +97,7 @@ public class MainScript : MonoBehaviour
         convo.Add(new DialogData("/color:lime/Глоб\n" + "/color:white/" +
                                  "Не видать нам сегодня горячего обеда...", "Slime"));
         convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
-                                 "Вот незадача, но ничего, это хорошая возможность новичку потренироватся", "Main"));
+                                 "Вот незадача, но ничего, это хорошая возможность новичку потренироваться", "Main"));
         convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
                                  "Попробуй сделать молекулу метана, из этого вещества состоит природный газ", "Main", () => levelController.ChangeLevel(1)));
         
@@ -112,34 +112,28 @@ public class MainScript : MonoBehaviour
 
     public void FinishedLvl2Methane()
     {
-        
+        List<DialogData> convo = new List<DialogData>();
+        convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
+                                 "У тебя получается все лучше и лучше! Нужно дать тебе что-то потруднее", "Main"));
+        convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
+                                 "Есть у меня один интересный проект, метанол. Попробуй собрать молекулу", "Main"));
+        convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
+                                 "/color:lime/Глоб/color:white/, принеси нужные материалы!", "Main"));
+        convo.Add(new DialogData("/color:lime/Глоб\n" + "/color:white/" +
+                                 "Уже бегу", "Slime",() => levelController.ChangeLevel(2)));
+        dialogManager.Show(convo);
     }
-    
     public void FinishedLvl3Methane()
     {
-        
+        List<DialogData> convo = new List<DialogData>();
+        convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
+                                 "Только не пей это, оно ядовитое. Отличная работа!", "Main"));
+        convo.Add(new DialogData("/color:orange/Леша\n"+"/color:white/"+
+                                 "По всей видимости у нас с Глобом не осталось материалов", "Main"));
+        convo.Add(new DialogData("/color:lime/Глоб\n" + "/color:white/" +
+                                 "Приходи завтра. Мы подготовим много интересных молекул для сборки", "Slime",() => Application.Quit()));
+        dialogManager.Show(convo);
     }
-    
-    void Slime1()
-    {
-        //dialogManager.Hide();
-        DialogData dialogSlime = new DialogData("1 Ау! АУ! Вставай, чего разлегся. Что случилось?", "Slime");
-        dialogSlime.Callback = Slime2;
-        dialogManager.Show(dialogSlime);
-    }
-    void Slime2()
-    {
-        //dialogManager.Hide();
-        DialogData dialogSlime = new DialogData("2 Ау! АУ! Вставай, чего разлегся. Что случилось?", "Slime");
-        dialogSlime.Callback = Slime3;
-        dialogManager.Show(dialogSlime);
-    }
-    void Slime3()
-    {
-        DialogData dialogSlime = new DialogData("3 Ау! АУ! Вставай, чего разлегся. Что случилось?", "Slime");
-        dialogManager.Show(dialogSlime);
-    }
-
 
     private void Update()
     {
