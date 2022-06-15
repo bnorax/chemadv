@@ -84,7 +84,6 @@ public class BoardSegment : MonoBehaviour
         Wall,
         AtomNode,
         BondPlus,
-        BondMinus,
-        Rotate
+        BondMinus
     }
 }

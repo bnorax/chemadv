@@ -27,13 +27,13 @@ public class Player : MonoBehaviour
     {
         background.color = backgroundFaded;
         _moleculesToMove?.Clear();
-        mainMolecule._molecule.Clear();
-        mainMolecule._molecule.Add(mainAtom);
+        mainMolecule.molecule.Clear();
+        mainMolecule.molecule.Add(mainAtom);
     }
 
     bool WinCheck()
     {
-        if (numberOfAtomsToCollect != mainMolecule._molecule.Count) return false;
+        if (numberOfAtomsToCollect != mainMolecule.molecule.Count) return false;
         // foreach (var atom in mainMolecule._molecule)
         // {
         //     if(!winCheck.Contains(atom)) return false;
@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
 
     void MoveMolecule(Vector2Int direction)
     { 
-        _moleculesToMove= new List<Atom>(mainMolecule._molecule);
+        _moleculesToMove= new List<Atom>(mainMolecule.molecule);
         var difPosition = VectorToInt(direction);
         
         for (var i = 0; i < _moleculesToMove.Count; i++)
@@ -86,16 +86,16 @@ public class Player : MonoBehaviour
         }
 
         List<Atom> atomsToAddToMoleculeAfterCheck = new List<Atom>();
-        for (var i = 0; i < mainMolecule._molecule.Count; i++)
+        for (var i = 0; i < mainMolecule.molecule.Count; i++)
         {
-            var curAtom = mainMolecule._molecule[i];
+            var curAtom = mainMolecule.molecule[i];
             var atomPosition = Array.IndexOf(board.boardList, curAtom.gameObject);
             CheckAvailableBonds(curAtom, atomPosition, atomsToAddToMoleculeAfterCheck);
         }
 
         foreach (var atom in atomsToAddToMoleculeAfterCheck)
         {
-            mainMolecule._molecule.Add(atom);
+            mainMolecule.molecule.Add(atom);
         }
 
         if (WinCheck())
@@ -128,7 +128,7 @@ public class Player : MonoBehaviour
 
     void CheckAvailableBonds(Atom curAtom, int atomPosition, List<Atom> atomsToAddToMoleculeAfterCheck)
     {
-        if(mainMolecule._molecule.Contains(curAtom)) 
+        if(mainMolecule.molecule.Contains(curAtom)) 
             CheckNearAtomsForAvailableBond(curAtom, atomPosition, atomsToAddToMoleculeAfterCheck);
     }
     
@@ -172,15 +172,15 @@ public class Player : MonoBehaviour
         
         foreach (var closeAtom in closeAtoms)
         {
-            if (closeAtom._availableBonds > 0
-                && curAtom._availableBonds > 0
-                && !mainMolecule._molecule.Contains(closeAtom))
+            if (closeAtom.availableBonds > 0
+                && curAtom.availableBonds > 0
+                && !mainMolecule.molecule.Contains(closeAtom))
             {
                 var closeBondAnim = closeAtom.GetComponentInChildren<BondsAnim>();
                 curBondAnim.ChangeBond(false);
                 closeBondAnim.ChangeBond(false);
-                closeAtom._availableBonds--;
-                curAtom._availableBonds--;
+                closeAtom.availableBonds--;
+                curAtom.availableBonds--;
                 if(!atomsToAddToMoleculeAfterCheck.Contains(closeAtom)) atomsToAddToMoleculeAfterCheck.Add(closeAtom);
             }
         }

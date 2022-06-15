@@ -19,7 +19,7 @@ public class BondsAnim : MonoBehaviour
     {
         if (add)
         {
-            if (_atom._availableBonds > _childCount) return;
+            if (_atom.availableBonds > _childCount) return;
             foreach (var bond in bondsList)
             {
                 if (!bond.activeSelf)
@@ -31,7 +31,7 @@ public class BondsAnim : MonoBehaviour
         }
         else
         {
-            if (_atom._availableBonds > _childCount) return;
+            if (_atom.availableBonds > _childCount) return;
             foreach (var bond in bondsList)
             {
                 if (bond.activeSelf)
